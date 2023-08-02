@@ -18,19 +18,51 @@ class OrderTracker {
   /**
    * Статичний метод get використовується для отримання списку замовлень
    */
+  static instance = null;
+
+  static create() {
+    // Перевіряємо, чи є вже створений екземпляр класу
+    if (!OrderTracker.instance) {
+      // Якщо немає, створюємо новий екземпляр
+      OrderTracker.instance = new OrderTracker();
+    }
+    // Інакше повертаємо єдиний екземпляр класу
+    return OrderTracker.instance;
+  }
+
+  static add(item) {
+    // Статичний метод add використовується для додавання замовлення до списку
+    // Отримує item та додає його до масиву замовлень
+    OrderTracker.orders.push(item);
+  }
+
+  static get() {
+    // Статичний метод get використовується для отримання списку замовлень
+    return OrderTracker.orders;
+  }
+
+  // Приватний конструктор
+  constructor() {
+    if (OrderTracker.instance) {
+      throw new Error(
+        "OrderTracker is a Singleton. Use OrderTracker.create() instead."
+      );
+    }
+    OrderTracker.orders = [];
+  }
 }
 console.log("Завдання 1 ====================================");
 // Після виконання розкоментуйте код нижче
 
 // Створюємо єдиний екземпляр класу OrderTracker
-// const tracker = OrderTracker.create();
+const tracker = OrderTracker.create();
 
 // Додаємо замовлення до списку
-// OrderTracker.add("Телефон");
-// OrderTracker.add("Ноутбук");
+OrderTracker.add("Телефон");
+OrderTracker.add("Ноутбук");
 
 // Отримуємо список замовлень
-// const orders = OrderTracker.get();
+const orders = OrderTracker.get();
 
 // Виводимо список замовлень в консоль
-// console.log(orders);
+console.log(orders);
